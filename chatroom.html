@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Chat room</title>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/static/jQuery/jquery-2.1.4.min.js"></script>
+
+    <style>
+    	.msgs .time {
+			font-size: 12px;
+			color: #aaaaaa;
+			text-align: right;
+			position: relative;
+			top: -10px
+		}
+		.msgs .mes{
+			position: relative;
+			height: 0;
+		}
+		.msgs {
+			position: relative;
+			max-width: 500px;
+		}
+    </style>
+  </head>
+  <body>
+
+    <div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<nav class="navbar navbar-default" role="navigation">
+				<div class="navbar-header">
+					 
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+						 <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+					</button> <a class="navbar-brand" href="#">Chatroom</a>
+				</div>
+				
+				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+					<ul class="nav navbar-nav">
+						<li>
+							<a href="#">Home</a>
+						</li>
+						<li class="active">
+							<a href="#">Start Chatting!</a>
+						</li>
+					</ul>
+					<ul class="nav navbar-nav navbar-right">
+						<li>
+							<a href="#">Leave</a>
+						</li>
+					</ul>
+				</div>
+				
+			</nav>
+			<div class="row-md-12">
+				<div class="col-md-12">
+					<div class="msgs"></div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-2 col-sm-2 col-lg-2" id="wrn">
+				</div>
+				<div class="col-md-7 col-sm-6 col-lg-7">
+					<form class="form-horizontal" role="form">
+						<div class="form-group">
+							 
+							<label for="inputUsername3" class="col-md-2 col-sm-3 col-xs-2 control-label">
+								Username
+							</label>
+							<div class="col-md-10 col-sm-9 col-xs-8">
+								<input type="username" class="form-control" id="inputUsername3">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="inputPassword3" class="col-md-2 col-sm-3 col-xs-2 control-label">
+								Password
+							</label>
+							<div class="col-md-9 col-sm-6 col-xs-8">
+								<input type="password" class="form-control" id="inputPassword3">
+							</div>
+							<div class="col-md-1 col-sm-4 col-xs-2">
+								<div class="form-group">
+									<button type="submit" class="btn btn-default">
+										Sign in
+									</button>
+								</div>
+							</div>
+						</div>
+						<!-- something another input -->
+					</form>
+				</div>
+				<div class="col-md-3 col-sm-4 col-lg-3" id="date">
+					<p>
+						time append
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/scripts.js"></script>
+  </body>
+</html>
+<script>
+	var socket = io('http://210.71.78.201:3000');
+
+	var cntlog=0;
+	var cntchat=0;
+	
+	var month = new Date().getMonth()+1;
+	var now = new Date().getFullYear().toString()+"-"+month.toString()+"-"+new Date().getDate().toString()+" "+new Date().getHours().toString()+":"+new Date().getMinutes().toString()+":"+new Date().getSeconds().toString();
+	var username;
+	var nickname;
+	socket.on("who",function(){
+		if(cntlog==0){
+			$('#loginarea').append('username : <input type="text" name="username" id="username" style="width:195px"><br>password : <input type="password" name="pass" id="pass" style="width:150px"><br><input type="button" onclick="loginfunction()" value="login" class="button">');
+			cntlog=cntlog+1;
+		}
+	});
+
+	socket.on('nou',function(){
+		$('#wrn').text('unknown username');
+		document.getElementById('username').value="";
+		document.getElementById('pass').value="";
+	});
+
+	socket.on('wp',function(){
+		$('#wrn').text('wrong password');
+		document.getElementById('pass').value="";
+	});;
+
+	socket.on('logindone',function(nick){
+		nickname=nick;
+		$('#loginarea').remove();
+		if(cntchat==0){
+			$('#chatarea').append('<input type="text" name="message" id="text"><input type="button" value="send" onclick="sendtextfunction()" class="button2">');
+			cntchat=cntchat+1;
+		}
+		$('#wrn').text('');
+	})
+
+	var sendtextfunction = function(){
+		var text = document.getElementById('text').value; 
+		if(text!=""){
+			socket.emit('sendchat', text, nickname);
+		}
+      	document.getElementById('text').value="";
+	};
+
+	var loginfunction = function(){
+		var username = document.getElementById('username').value; 
+	    var pass = document.getElementById('pass').value;
+ 	    socket.emit('loginq',username,pass);
+ 	    document.getElementById('pass').value="";
+ 	};
+
+	socket.on("pubchat",function(text ,sendname ,time){
+		//give text to html
+		$('.msgs').append("<p class='mes'>"+sendname+" : "+text+'</p>'+'<p class="time">'+time+'</p>');
+	});
+
+	socket.on('now', function(data) {
+        	$('#date').text(data.date);
+	});
+
+        socket.on('sbc', function(who, time){
+		$('.msgs').append("<p class='mes'>"+who+" join the chat</p><p class='time'>"+time+"</p>");
+        });
+
+	socket.on('leave', function(who,time){
+		$('.msgs').append("<p class='mes'>"+who+" leave the chat</p><p class='time'>"+time+"</p>");
+	});
+
+</script>
