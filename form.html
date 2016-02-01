@@ -143,6 +143,11 @@
 				<div class="col-md-2">
 				</div>
 			</div>
+			<div class="row">
+				<div class="col-md-4 col-sm-4 col-lg-4"></div>
+				<div class="col-md-4 col-sm-4 col-lg-4" id="done"></div>
+				<div class="col-md-4 col-sm-4 col-lg-4"></div>
+			</div>
 		</div>
 	</div>
 </div>
@@ -228,7 +233,7 @@
 
   socket.on('jumpmain',function(){
     if(cnta==0){
-      $('#done').append('<a href="http://tdcweb.xyz:3000/chat.html">go to chatroom!</a>');
+      $('#done').append('<a href="http://tdcweb.xyz:3000/chat/chat.html">go to chatroom!</a>');
       cnta=cnta+1;
     }
   })	
