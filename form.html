@@ -7,9 +7,6 @@
 
     <title>Regist(?)</title>
 
-    <meta name="description" content="Source code generated using layoutit.com">
-    <meta name="author" content="LayoutIt!">
-
     <link href="static/css/bootstrap.min.css" rel="stylesheet">
     <link href="static/css/style.css" rel="stylesheet">
 
@@ -26,21 +23,21 @@
 					 
 					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
 						 <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
-					</button> <a class="navbar-brand" href="http://tdcweb.xyz/chat/chat.html">Chatroom</a>
+					</button> <a class="navbar-brand" href="http://tdcweb.xyz:3000/chat/chat.html">Chatroom</a>
 				</div>
 				
 				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 					<ul class="nav navbar-nav">
 						<li>
-							<a href="http://tdcweb.xyz/chat/">Home</a>
+							<a href="http://tdcweb.xyz:3000/chat/">Home</a>
 						</li>
 						<li>
-							<a href="http://tdcweb.xyz/chat/chat.html">Start Chatting!</a>
+							<a href="http://tdcweb.xyz:3000/chat/chat.html">Start Chatting!</a>
 						</li>
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
 						<li class="active">
-							<a href="http://tdcweb.xyz/chat/login.html">Register</a>
+							<a href="http://tdcweb.xyz:3000/chat/login.html">Register</a>
 						</li>
 					</ul>
 				</div>
@@ -157,7 +154,7 @@
 </html>
 <script>
 	//reset onclick
-	var socket = io('http://tdcweb.xyz/chat:3000');
+	var socket = io('http://tdcweb.xyz:3000/chat/');
 
 	var cnta=0;
 
@@ -231,7 +228,7 @@
 
   socket.on('jumpmain',function(){
     if(cnta==0){
-      $('#done').append('<a href="http://localhost:3000/chat.html">go to chatroom!</a>');
+      $('#done').append('<a href="http://tdcweb.xyz:3000/chat.html">go to chatroom!</a>');
       cnta=cnta+1;
     }
   })	

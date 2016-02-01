@@ -50,7 +50,7 @@ io.sockets.on('connection', function(socket){
       else{var nnnnow=nnnow+new Date().getSeconds().toString();}
     console.log(text+" "+name+" "+nnnnow);
     io.emit("pubchat", text, name ,nnnnow);
-    MongoClient.connect('mongodb://localhost:27017/users',function(err,db){
+    MongoClient.connect('mongodb://tdcweb.xyz:27017/users',function(err,db){
       db.collection('messages').insert({"sendby":name,"text":text,"time":nnnnow});
     });
     var something = "text :"+text+", sendby :"+name+", time :"+nnnnow;
@@ -70,7 +70,7 @@ io.sockets.on('connection', function(socket){
   }, 1000);
 
   socket.on('regq',function(username,nickname,pass,pass2,email,birth){
-    MongoClient.connect('mongodb://localhost:27017/users',function(err,db){
+    MongoClient.connect('mongodb://tdcweb.xyz:27017/users',function(err,db){
       db.collection('users').find({"username":username}).count(function(err,cnt){
         if(cnt){socket.emit('usernameq');}
         else{
@@ -87,7 +87,7 @@ io.sockets.on('connection', function(socket){
   });
 
   socket.on('loginq',function(username,pass){
-    MongoClient.connect('mongodb://localhost:27017/users',function(err,db){
+    MongoClient.connect('mongodb://tdcweb.xyz:27017/users',function(err,db){
       db.collection('users').find({"username":username}).count(function(err,cnt){
         if(cnt==0){socket.emit("nou");}
         else{
@@ -106,7 +106,7 @@ io.sockets.on('connection', function(socket){
                 if(new Date().getSeconds()<10){var nnnnow=nnnow+"0"+new Date().getSeconds().toString();}
                   else{var nnnnow=nnnow+new Date().getSeconds().toString();}
                 io.emit("sbc",nn, nnnnow);
-                MongoClient.connect('mongodb://localhost:27017/users',function(err,db){
+                MongoClient.connect('mongodb://tdcweb.xyz:27017/users',function(err,db){
                   db.collection('messages').insert({"sendby":nn,"text":"join the chat","time":nnnnow});
                 });
               });
@@ -128,7 +128,7 @@ io.sockets.on('connection', function(socket){
     if(new Date().getSeconds()<10){var nnnnow=nnnow+"0"+new Date().getSeconds().toString();}
       else{var nnnnow=nnnow+new Date().getSeconds().toString();}
     io.emit('leave',nn,nnnnow);
-    MongoClient.connect('mongodb://localhost:27017/users',function(err,db){
+    MongoClient.connect('mongodb://tdcweb.xyz:27017/users',function(err,db){
       db.collection('messages').insert({"sendby":nn,"text":"leave the chat","time":nnnnow});
     });
     console.log(nn+" leave the chat");
