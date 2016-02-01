@@ -12,21 +12,21 @@ var io = require('socket.io')(server);
 
 var http = require('http');
 
-app.use('/static', express.static(__dirname+'/static'));
+app.use('/static', express.static("/var/www/chat"+'/static'));
 
 app.use(bodyParser.urlencoded({extended: true}));
 
 //MongoClient.createCollection('users');
 
 app.get('/add.html',function(req,res){
-    res.sendFile(__dirname+'/form.html',function(){res.end();})
+    res.sendFile("/var/www/chat"+'/form.html',function(){res.end();})
 });
 app.get('/',function(req,res){
-    res.sendFile(__dirname+'/index.html',function(){res.end();})
+    res.sendFile("/var/www/chat"+'/index.html',function(){res.end();})
 });
 
 app.get('/chat.html',function(req,res){
-  res.sendFile(__dirname+'/chatroom.html',function(){res.end();})
+  res.sendFile("/var/www/chat"+'/chatroom.html',function(){res.end();})
 })
 
 //MongoClient.connect('mongodb://localhost:27017',function(err,db){
