@@ -59,23 +59,24 @@
 						</li>
 					</ul>
 				</div>
-				
 			</nav>
-			<div class="row-md-12">
-				<div class="col-md-12">
-					<div class="msgs"></div>
-				</div>
-			</div>
 			<div class="row">
 				<div class="col-md-2 col-sm-2 col-lg-2 wrn" id="wrn">
 				</div>
 				<div id="loginarea"></div>
 				<div id="chatarea"></div>
-				<div class="col-md-3 col-sm-4 col-lg-3" id="date">
+				<div class="col-md-4 col-sm-4 col-lg-4" id="date">
 					<p>
 						time append
 					</p>
 				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4 col-sm-4 col-lg-4"></div>
+				<div class="col-md-4 col-sm-4 col-lg-4">
+					<div class="msgs align-center"></div>
+				</div>
+				<div class="col-md-4 col-sm-4 col-lg-4"></div>
 			</div>
 		</div>
 	</div>
@@ -98,7 +99,7 @@
 	var nickname;
 	socket.on("who",function(){
 		if(cntlog==0){
-			$('#loginarea').append('<div class="col-md-7 col-sm-6 col-lg-7" id="loginarea"><form class="form-horizontal" role="form"><div class="form-group"><label for="inputUsername3" class="col-md-2 col-sm-3 col-xs-2 control-label">Username</label><div class="col-md-10 col-sm-9 col-xs-8"><input type="username" class="form-control" id="username"></div></div><div class="form-group"><label for="inputPassword3" class="col-md-2 col-sm-3 col-xs-2 control-label">Password</label><div class="col-md-9 col-sm-6 col-xs-8"><input type="password" class="form-control" id="pass"></div><div class="col-md-1 col-sm-4 col-xs-2"><input type="button" value="log in" onclick="loginfunction()" class="btn btn-default"></div></div></form></div></div>');
+			$('#loginarea').append('<div class="col-md-6 col-sm-6 col-lg-6" id="loginarea"><form class="form-horizontal" role="form"><div class="form-group"><label for="inputUsername3" class="col-md-2 col-sm-3 col-xs-2 control-label">Username</label><div class="col-md-10 col-sm-9 col-xs-8"><input type="username" class="form-control" id="username"></div></div><div class="form-group"><label for="inputPassword3" class="col-md-2 col-sm-3 col-xs-2 control-label">Password</label><div class="col-md-9 col-sm-6 col-xs-8"><input type="password" class="form-control" id="pass"></div><div class="col-md-1 col-sm-4 col-xs-2"><input type="button" value="log in" onclick="loginfunction()" class="btn btn-default"></div></div></form></div></div>');
 			cntlog=cntlog+1;
 		}
 	});
@@ -118,7 +119,7 @@
 		nickname=nick;
 		if(cntchat==0){
 			$('#loginarea').remove();
-			$('#chatarea').append('<div class="col-md-7 col-sm-6 col-lg-7" id="loginarea"><form class="form-horizontal" role="form"><div class="form-group"><label for="inputUsername3" class="col-md-2 col-sm-3 col-xs-2 control-label">message</label><div class="col-md-9 col-sm-6 col-xs-8"><input type="text" class="form-control" id="text" name="message"></div><div class="col-md-1 col-sm-4 col-xs-2"><input type="button" value="send" onclick="sendtextfunction()" class="btn btn-default"></div></div></form></div>');
+			$('#chatarea').append('<div class="col-md-6 col-sm-6 col-lg-6" id="loginarea"><form class="form-horizontal" role="form"><div class="form-group"><label for="inputUsername3" class="col-md-2 col-sm-3 col-xs-2 control-label">message</label><div class="col-md-9 col-sm-6 col-xs-8"><input type="text" class="form-control" id="text" name="message"></div><div class="col-md-1 col-sm-4 col-xs-2"><input type="button" value="send" onclick="sendtextfunction()" class="btn btn-default"></div></div></form></div>');
 			cntchat=cntchat+1;
 		}
 		$('#wrn').text('');
@@ -134,9 +135,9 @@
 
 	var loginfunction = function(){
 		var username = document.getElementById('username').value; 
-	    var pass = document.getElementById('pass').value;
- 	    socket.emit('loginq',username,pass);
- 	    document.getElementById('pass').value="";
+	 	var pass = document.getElementById('pass').value;
+ 	 	socket.emit('loginq',username,pass);
+ 		document.getElementById('pass').value="";
  	};
 
 	socket.on("pubchat",function(text ,sendname ,time){
@@ -145,7 +146,7 @@
 	});
 
 	socket.on('now', function(data) {
-        	$('#date').text(data.date);
+ 		$('#date').text(""+data.date);
 	});
 
         socket.on('sbc', function(who, time){
